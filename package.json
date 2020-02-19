@@ -1,0 +1,15 @@
+{
+  "name": "help",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "regalpac",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "vue": "^2.6.11"
+  }
+}
