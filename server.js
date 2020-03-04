@@ -2,42 +2,90 @@
 const hostname = 'localhost';
 const port = 8024;
 
-var express = require('express');
-var app = express();
+const path = require('path');
+const express = require('express');
+const ejs = require('ejs');
+const bodyParser = require('body-parser');
+const app = express();
 
-app.get('/', function (req, res) {
+//set views file
+app.set('views', path.join(__dirname, 'views'));
 
-  var sql = require("mssql");
+//set view engine
+app.set('view engine', 'ejs');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-  // config for your database
-  var config = {
-    user: 'su',
-    password: 'SaSa1212',
-    server: '10.199.13.253',
-    database: 'nrp05111740000078'
-  };
+var mssql = require("mssql");
+var config = {
+  user: 'su',
+  password: 'SaSa1212',
+  server: '10.199.13.253',
+  database: 'nrp05111740000137'
+};
 
-  // connect to your database
-  sql.connect(config, function (err) {
+// connect to your database
+mssql.connect(config, function (err) {
+  // create Request object
+  var request = new mssql.Request();
 
-    if (err) console.log(err);
+  app.get('/', (req, res) => {
+    let sql = "SELECT * FROM mahasiswa";
+    request.query(sql, function (err, rows) {
+      if (err) throw err;
+      res.render('user_index', {
+        title: 'CRUD Operation using NodeJS / ExpressJS / MSSQL',
+        users: rows
+      });
+    });
+  });
 
-    // create Request object
-    var request = new sql.Request();
+  app.get('/add', (req, res) => {
+    res.render('user_add', {
+      title: 'CRUD Operation using NodeJS / ExpressJS / MySQL'
+    });
+  });
 
-    // query to the database and get the records
-    request.query('select *', function (err, recordset) {
+  app.post('/save', (req, res) => {
+    let data = { name: req.body.nama, nrp: req.body.nrp, telp: req.body.telp };
+    let sql = "INSERT INTO mahasiswa SET ?";
+    request.query(sql, data, (err, results) => {
+      if (err) throw err;
+      res.redirect('/');
+    });
+  });
 
-      if (err) console.log(err)
+  app.get('/edit/:userId', (req, res) => {
+    const userId = req.params.userId;
+    let sql = `SELECT * FROM mahasiswa WHERE mhs_id = ${userId}`;
+    request.query(sql, (err, result) => {
+      if (err) throw err;
+      res.render('user_edit', {
+        title: 'CRUD Operation using NodeJS / ExpressJS / MySQL',
+        user: result.recordset[0]
+      });
+    });
+  });
 
-      // send records as a response
-      res.send(recordset);
+  app.post('/update', (req, res) => {
+    const userId = req.body.mhs_id;
+    let sql = "UPDATE mahasiswa SET nama='" + req.body.nama + "',  nrp='" + req.body.nrp + "',  telp='" + req.body.telp + "' WHERE mhs_id =" + userId;
+    request.query(sql, (err, results) => {
+      if (err) throw err;
+      res.redirect('/');
+    });
+  });
 
+  app.get('/delete/:userId', (req, res) => {
+    const userId = req.params.userId;
+    let sql = `DELETE FROM mahasiswa WHERE mhs_id = ${userId}`;
+    request.query(sql, (err, result) => {
+      if (err) throw err;
+      res.redirect('/');
     });
   });
 });
 
-
-var server = app.listen(port, hostname, function () {
+app.listen(port, hostname, () => {
   console.log('Server running at http://' + hostname + ':' + port + '/');
 });
