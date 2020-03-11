@@ -2,21 +2,11 @@
 const hostname = 'localhost';
 const port = 8024;
 
-const path = require('path');
 const express = require('express');
-const ejs = require('ejs');
+var sql = require('mssql');
 const bodyParser = require('body-parser');
 const app = express();
 
-//set views file
-app.set('views', path.join(__dirname, 'views'));
-
-//set view engine
-app.set('view engine', 'ejs');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-var mssql = require("mssql");
 var config = {
   user: 'su',
   password: 'SaSa1212',
@@ -24,66 +14,83 @@ var config = {
   database: 'nrp05111740000137'
 };
 
-// connect to your database
-mssql.connect(config, function (err) {
-  // create Request object
-  var request = new mssql.Request();
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, contentType, content-Type, Accept, Authorization");
+  next();
+});
 
-  app.get('/', (req, res) => {
-    let sql = "SELECT * FROM mahasiswa";
-    request.query(sql, function (err, rows) {
-      if (err) throw err;
-      res.render('user_index', {
-        title: 'CRUD Operation using NodeJS / ExpressJS / MSSQL',
-        users: rows
-      });
-    });
-  });
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-  app.get('/add', (req, res) => {
-    res.render('user_add', {
-      title: 'CRUD Operation using NodeJS / ExpressJS / MySQL'
-    });
-  });
+var executeQuery = function(res, query, param, reqType) {
+  sql.connect(config, function(err){
+    if(err) {
+      res.end('Connection Error\n' + err)
+    }
+    else {
+      var request = new sql.Request()
+      if(reqType != 0) {
+        param.forEach(function(p)
+        {
+          request.input(p.name, p.sqltype, p.value);
+        });
+      }
+      request.query(query, function(err, response){
+        if(err) {
+          console.log('Query Error\n' + err)
+        }
+        else{
+          res.send(response.recordset)
+        }
+     })
+    }
+  })
+}
 
-  app.post('/save', (req, res) => {
-    let data = { name: req.body.nama, nrp: req.body.nrp, telp: req.body.telp };
-    let sql = "INSERT INTO mahasiswa SET ?";
-    request.query(sql, data, (err, results) => {
-      if (err) throw err;
-      res.redirect('/');
-    });
-  });
+app.get("/", function (req, res) {
+  res.end('finished');
+});
 
-  app.get('/edit/:userId', (req, res) => {
-    const userId = req.params.userId;
-    let sql = `SELECT * FROM mahasiswa WHERE mhs_id = ${userId}`;
-    request.query(sql, (err, result) => {
-      if (err) throw err;
-      res.render('user_edit', {
-        title: 'CRUD Operation using NodeJS / ExpressJS / MySQL',
-        user: result.recordset[0]
-      });
-    });
-  });
+//GET API
+app.get("/api/mahasiswa", function (req, res) {
+  var query = "SELECT * FROM mahasiswa";
+  executeQuery(res, query, null, 0);
+});
 
-  app.post('/update', (req, res) => {
-    const userId = req.body.mhs_id;
-    let sql = "UPDATE mahasiswa SET nama='" + req.body.nama + "',  nrp='" + req.body.nrp + "',  telp='" + req.body.telp + "' WHERE mhs_id =" + userId;
-    request.query(sql, (err, results) => {
-      if (err) throw err;
-      res.redirect('/');
-    });
-  });
+//POST API
+app.post("/api/mahasiswa", function (req, res) {
 
-  app.get('/delete/:userId', (req, res) => {
-    const userId = req.params.userId;
-    let sql = `DELETE FROM mahasiswa WHERE mhs_id = ${userId}`;
-    request.query(sql, (err, result) => {
-      if (err) throw err;
-      res.redirect('/');
-    });
-  });
+  var param = [
+    { name: 'mhs_id', sqltype: sql.Int, value: req.body.mhs_id },
+    { name: 'nama', sqltype: sql.VarChar, value: req.body.nama },
+    { name: 'nrp', sqltype: sql.VarChar, value: req.body.nrp },
+    { name: 'telp', sqltype: sql.VarChar, value: req.body.telp }
+  ]
+
+  var query = "INSERT INTO mahasiswa (nama, nrp, telp) VALUES (@nama, @nrp, @telp)";
+  executeQuery(res, query, param, 1);
+});
+
+//PUT API
+app.put("/api/mahasiswa/:mhs_id", function (req, res) {
+
+  var param = [
+    { name: 'mhs_id', sqltype: sql.Int, value: req.body.mhs_id },
+    { name: 'nama', sqltype: sql.VarChar, value: req.body.nama },
+    { name: 'nrp', sqltype: sql.VarChar, value: req.body.nrp },
+    { name: 'telp', sqltype: sql.VarChar, value: req.body.telp }
+  ]
+
+  var query = "UPDATE mahasiswa SET nama = @nama, nrp = @nrp, telp = @telp WHERE mhs_id = @mhs_id";
+  executeQuery(res, query, param, 1);
+});
+
+// DELETE API
+app.delete("/api/mahasiswa/:mhs_id", function (req, res) {
+  var query = "DELETE FROM mahasiswa WHERE mhs_id=" + req.params.mhs_id;
+  executeQuery(res, query, null, 0);
 });
 
 app.listen(port, hostname, () => {
