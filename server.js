@@ -59,6 +59,12 @@ app.get("/api/mahasiswa", function (req, res) {
   executeQuery(res, query, null, 0);
 });
 
+//GET API FORM ID
+app.get("/api/mahasiswa/:mhs_id", function (req, res) {
+  var query = "SELECT * FROM mahasiswa WHERE mhs_id = " + req.params.mhs_id;
+  executeQuery(res, query, null, 0);
+});
+
 //POST API
 app.post("/api/mahasiswa", function (req, res) {
 
