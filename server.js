@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const app = express();
 
 var config = {
-  user: 'su',
+  user: 'sa',
   password: 'SaSa1212',
   server: '10.199.13.253',
   database: 'nrp05111740000137'
@@ -16,8 +16,8 @@ var config = {
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, contentType, content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
+  res.header("Access-Control-Allow-Headers", "*");
   next();
 });
 
@@ -53,49 +53,184 @@ app.get("/", function (req, res) {
   res.end('finished');
 });
 
+//Data Dasar
 //GET API
-app.get("/api/mahasiswa", function (req, res) {
-  var query = "SELECT * FROM mahasiswa";
+app.get("/api/datadasar", function (req, res) {
+  var query = "SELECT id, nama AS name FROM datadasar";
   executeQuery(res, query, null, 0);
 });
 
 //GET API FORM ID
-app.get("/api/mahasiswa/:mhs_id", function (req, res) {
-  var query = "SELECT * FROM mahasiswa WHERE mhs_id = " + req.params.mhs_id;
+app.get("/api/datadasar/:id", function (req, res) {
+  var query = "SELECT * FROM datadasar WHERE id = " + req.params.id;
   executeQuery(res, query, null, 0);
 });
 
 //POST API
-app.post("/api/mahasiswa", function (req, res) {
+app.post("/api/datadasar", function (req, res) {
 
   var param = [
-    { name: 'mhs_id', sqltype: sql.Int, value: req.body.mhs_id },
-    { name: 'nama', sqltype: sql.VarChar, value: req.body.nama },
-    { name: 'nrp', sqltype: sql.VarChar, value: req.body.nrp },
-    { name: 'telp', sqltype: sql.VarChar, value: req.body.telp }
+    { name: 'nama', sqltype: sql.VarChar, value: req.body.nama }
   ]
 
-  var query = "INSERT INTO mahasiswa (nama, nrp, telp) VALUES (@nama, @nrp, @telp)";
+  var query = "INSERT INTO datadasar (nama) VALUES (@nama)";
   executeQuery(res, query, param, 1);
 });
 
 //PUT API
-app.put("/api/mahasiswa/:mhs_id", function (req, res) {
+app.put("/api/datadasar/:id", function (req, res) {
 
   var param = [
-    { name: 'mhs_id', sqltype: sql.Int, value: req.body.mhs_id },
-    { name: 'nama', sqltype: sql.VarChar, value: req.body.nama },
-    { name: 'nrp', sqltype: sql.VarChar, value: req.body.nrp },
-    { name: 'telp', sqltype: sql.VarChar, value: req.body.telp }
+    { name: 'nama', sqltype: sql.VarChar, value: req.body.nama }
   ]
 
-  var query = "UPDATE mahasiswa SET nama = @nama, nrp = @nrp, telp = @telp WHERE mhs_id = @mhs_id";
+  var query = "UPDATE datadasar SET nama = @nama WHERE id = " + req.params.id;
   executeQuery(res, query, param, 1);
 });
 
 // DELETE API
-app.delete("/api/mahasiswa/:mhs_id", function (req, res) {
-  var query = "DELETE FROM mahasiswa WHERE mhs_id=" + req.params.mhs_id;
+app.delete("/api/datadasar/:id", function (req, res) {
+  var query = "DELETE FROM datadasar WHERE id=" + req.params.id;
+  executeQuery(res, query, null, 0);
+});
+//-----------------------------------------
+
+//Kategori Unit
+//GET API
+app.get("/api/kategoriunit", function (req, res) {
+  var query = "SELECT id, nama AS name FROM kategoriunit";
+  executeQuery(res, query, null, 0);
+});
+
+//GET API FORM ID
+app.get("/api/kategoriunit/:id", function (req, res) {
+  var query = "SELECT * FROM kategoriunit WHERE id = " + req.params.id;
+  executeQuery(res, query, null, 0);
+});
+
+//POST API
+app.post("/api/kategoriunit", function (req, res) {
+
+  var param = [
+    { name: 'nama', sqltype: sql.VarChar, value: req.body.nama }
+  ]
+
+  var query = "INSERT INTO kategoriunit (nama) VALUES (@nama)";
+  executeQuery(res, query, param, 1);
+});
+
+//PUT API
+app.put("/api/kategoriunit/:id", function (req, res) {
+
+  var param = [
+    { name: 'nama', sqltype: sql.VarChar, value: req.body.nama }
+  ]
+
+  var query = "UPDATE kategoriunit SET nama = @nama WHERE id = " + req.params.id;
+  executeQuery(res, query, param, 1);
+});
+
+// DELETE API
+app.delete("/api/kategoriunit/:id", function (req, res) {
+  var query = "DELETE FROM kategoriunit WHERE id=" + req.params.id;
+  executeQuery(res, query, null, 0);
+});
+//-----------------------------------------
+
+//Unit
+//GET API
+app.get("/api/unit", function (req, res) {
+  var query = "SELECT * FROM unit";
+  executeQuery(res, query, null, 0);
+});
+
+app.get("/api/unitname", function (req, res) {
+  var query = "SELECT id, nama AS name FROM unit";
+  executeQuery(res, query, null, 0);
+});
+
+//GET API FORM ID
+app.get("/api/unit/:id", function (req, res) {
+  var query = "SELECT * FROM unit WHERE id = " + req.params.id;
+  executeQuery(res, query, null, 0);
+});
+
+//POST API
+app.post("/api/unit", function (req, res) {
+
+  var param = [
+    { name: 'kategoriunit_id', sqltype: sql.Int, value: req.body.kategoriunit_id},
+    { name: 'nama', sqltype: sql.VarChar, value: req.body.nama }
+  ]
+
+  var query = "INSERT INTO unit (kategoriunit_id, nama) VALUES (@kategoriunit_id, @nama)";
+  executeQuery(res, query, param, 1);
+});
+
+//PUT API
+app.put("/api/unit/:id", function (req, res) {
+
+  var param = [
+    { name: 'kategoriunit_id', sqltype: sql.Int, value: req.body.kategoriunit_id},
+    { name: 'nama', sqltype: sql.VarChar, value: req.body.nama }
+  ]
+
+  var query = "UPDATE unit SET nama = @nama, kategoriunit_id = @kategoriunit_id WHERE id = " + req.params.id;
+  executeQuery(res, query, param, 1);
+});
+
+// DELETE API
+app.delete("/api/unit/:id", function (req, res) {
+  var query = "DELETE FROM unit WHERE id=" + req.params.id;
+  executeQuery(res, query, null, 0);
+});
+//-----------------------------------------
+
+//Capaian Unit
+//GET API
+app.get("/api/capaian_unit", function (req, res) {
+  var query = "SELECT * FROM capaian_unit";
+  executeQuery(res, query, null, 0);
+});
+
+//GET API FORM ID
+app.get("/api/capaian_unit/:datadasar_id&:unit_id", function (req, res) {
+  var query = "SELECT * FROM capaian_unit WHERE datadasar_id = " + req.params.datadasar_id + "AND unit_id = " + req.params.unit_id;
+  executeQuery(res, query, null, 0);
+});
+
+
+//POST API
+app.post("/api/capaian_unit", function (req, res) {
+
+  var param = [
+    { name: 'datadasar_id', sqltype: sql.Int, value: req.body.datadasar_id },
+    { name: 'unit_id', sqltype: sql.Int, value: req.body.unit_id },
+    { name: 'waktu', sqltype: sql.Date, value: req.body.waktu },
+    { name: 'capaian', sqltype: sql.Float, value: req.body.capaian }
+  ]
+
+  var query = "INSERT INTO capaian_unit (datadasar_id, unit_id, waktu, capaian) VALUES (@datadasar_id, @unit_id, @waktu, @capaian)";
+  executeQuery(res, query, param, 1);
+});
+
+//PUT API
+app.put("/api/capaian_unit/:datadasar_id&:unit_id", function (req, res) {
+
+  var param = [
+    { name: 'datadasar_id', sqltype: sql.Int, value: req.body.datadasar_id },
+    { name: 'unit_id', sqltype: sql.Int, value: req.body.unit_id },
+    { name: 'waktu', sqltype: sql.Date, value: req.body.waktu },
+    { name: 'capaian', sqltype: sql.Float, value: req.body.capaian }
+  ]
+
+  var query = "UPDATE capaian_unit SET datadasar_id = @datadasar_id, unit_id = @unit_id, waktu = CURRENT_TIMESTAMP, capaian = @capaian WHERE datadasar_id = " + req.params.datadasar_id + " AND unit_id = " + req.params.unit_id;
+  executeQuery(res, query, param, 1);
+});
+
+// DELETE API
+app.delete("/api/capaian_unit/:datadasar_id&:unit_id", function (req, res) {
+  var query = "DELETE FROM capaian_unit WHERE datadasar_id = " + req.params.datadasar_id + "AND unit_id = " + req.params.unit_id;
   executeQuery(res, query, null, 0);
 });
 
