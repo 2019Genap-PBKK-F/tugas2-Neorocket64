@@ -428,13 +428,13 @@ app.delete("/api/capaian_unit/:id_satker&:id_datadasar", function (req, res) {
 
 //Indikator_Satuan Kerja
 //GET API
-app.get("/api/indikator_periode", function (req, res) {
+app.get("/api/indikator_satuankerja", function (req, res) {
   var query = "SELECT * FROM Indikator_SatuanKerja";
   executeQuery(res, query, null, 0);
 });
 
 //GET API FORM ID
-app.get("/api/indikator_periode/:id_periode&:id_master&:id_satker", function (req, res) {
+app.get("/api/indikator_satuankerja/:id_periode&:id_master&:id_satker", function (req, res) {
   var query = "SELECT * FROM Indikator_SatuanKerja WHERE id_master = " + req.params.id_master + "AND id_periode = " + req.params.id_periode + "AND id_satker = " + req.params.id_satker;
   executeQuery(res, query, null, 0);
 });
@@ -483,7 +483,7 @@ app.delete("/api/indikator_satuankerja/:id_periode&:id_master&:id_satker", funct
 
 //Indikator_Satuan Kerja LOG
 //GET API
-app.get("/api/indikator_periode_log", function (req, res) {
+app.get("/api/indikator_satuankerja_log", function (req, res) {
   var query = "SELECT * FROM Indikator_SatuanKerja_Log";
   executeQuery(res, query, null, 0);
 });
