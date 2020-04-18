@@ -81,7 +81,7 @@ app.post("/api/datadasar", function (req, res) {
     { name: 'expired_date', sqltype: sql.Date, value: req.body.expired_date }
   ]
 
-  var query = "INSERT INTO DataDasar (nama, create_date, last_update, expired_date) VALUES (@nama, @create_date, @last_update, @expired_date)";
+  var query = "INSERT INTO DataDasar (nama, create_date, last_update, expired_date) VALUES (@nama, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, @expired_date)";
   executeQuery(res, query, param, 1);
 });
 
@@ -95,7 +95,7 @@ app.put("/api/datadasar/:id", function (req, res) {
     { name: 'expired_date', sqltype: sql.Date, value: req.body.expired_date }
   ]
 
-  var query = "UPDATE DataDasar SET nama = @nama, create_date = @create_date, last_update = @last_update, expired_date = @expired_date WHERE id = " + req.params.id;
+  var query = "UPDATE DataDasar SET nama = @nama, last_update = CURRENT_TIMESTAMP, expired_date = @expired_date WHERE id = " + req.params.id;
   executeQuery(res, query, param, 1);
 });
 
@@ -134,7 +134,7 @@ app.post("/api/jenissatker", function (req, res) {
     { name: 'expired_date', sqltype: sql.Date, value: req.body.expired_date }
   ]
 
-  var query = "INSERT INTO JenisSatker (nama, create_date, last_update, expired_date) VALUES (@nama, @create_date, @last_update, @expired_date)";
+  var query = "INSERT INTO JenisSatker (nama, create_date, last_update, expired_date) VALUES (@nama, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, @expired_date)";
   executeQuery(res, query, param, 1);
 });
 
@@ -148,7 +148,7 @@ app.put("/api/jenissatker/:id", function (req, res) {
     { name: 'expired_date', sqltype: sql.Date, value: req.body.expired_date }
   ]
 
-  var query = "UPDATE JenisSatker SET nama = @nama, create_date = @create_date, last_update = @last_update, expired_date = @expired_date WHERE id = " + req.params.id;
+  var query = "UPDATE JenisSatker SET nama = @nama, last_update = CURRENT_TIMESTAMP, expired_date = @expired_date WHERE id = " + req.params.id;
   executeQuery(res, query, param, 1);
 });
 
@@ -186,7 +186,7 @@ app.post("/api/periode", function (req, res) {
     { name: 'last_update', sqltype: sql.Date, value: req.body.last_update }
   ]
 
-  var query = "INSERT INTO Periode (nama, create_date, last_update) VALUES (@nama, @create_date, @last_update)";
+  var query = "INSERT INTO Periode (nama, create_date, last_update) VALUES (@nama, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
   executeQuery(res, query, param, 1);
 });
 
@@ -199,7 +199,7 @@ app.put("/api/periode/:id", function (req, res) {
     { name: 'last_update', sqltype: sql.Date, value: req.body.last_update }
   ]
 
-  var query = "UPDATE Periode SET nama = @nama, create_date = @create_date, last_update = @last_update WHERE id = " + req.params.id;
+  var query = "UPDATE Periode SET nama = @nama, last_update = CURRENT_TIMESTAMP WHERE id = " + req.params.id;
   executeQuery(res, query, param, 1);
 });
 
@@ -242,7 +242,7 @@ app.post("/api/masterindikator", function (req, res) {
     { name: 'expired_date', sqltype: sql.Date, value: req.body.expired_date }
   ]
 
-  var query = "INSERT INTO MasterIndikator (id_penyebut, id_pembilang, nama, deskripsi, default_bobot, create_date, last_update, expired_date) VALUES (@id_penyebut, @id_pembilang, @nama, @deskripsi, @default_bobot, @create_date, @last_update, @expired_date)";
+  var query = "INSERT INTO MasterIndikator (id_penyebut, id_pembilang, nama, deskripsi, default_bobot, create_date, last_update, expired_date) VALUES (@id_penyebut, @id_pembilang, @nama, @deskripsi, @default_bobot, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, @expired_date)";
   executeQuery(res, query, param, 1);
 });
 
@@ -260,7 +260,7 @@ app.put("/api/masterindikator/:id", function (req, res) {
     { name: 'expired_date', sqltype: sql.Date, value: req.body.expired_date }
   ]
 
-  var query = "UPDATE MasterIndikator SET id_penyebut = @id_penyebut, id_pembilang = @id_pembilang, nama = @nama, deskripsi = @deskripsi, default_bobot = @default_bobot, create_date = @create_date, last_update = @last_update, expired_date = @expired_date WHERE id = " + req.params.id;
+  var query = "UPDATE MasterIndikator SET id_penyebut = @id_penyebut, id_pembilang = @id_pembilang, nama = @nama, deskripsi = @deskripsi, default_bobot = @default_bobot, last_update = CURRENT_TIMESTAMP, expired_date = @expired_date WHERE id = " + req.params.id;
   executeQuery(res, query, param, 1);
 });
 
@@ -326,7 +326,7 @@ app.get("/api/satuankerja", function (req, res) {
 });
 
 app.get("/api/satuankerjaid", function (req, res) {
-  var query = "SELECT id, id_satker AS name FROM SatuanKerja";
+  var query = "SELECT id, nama AS name FROM SatuanKerja";
   executeQuery(res, query, null, 0);
 });
 
@@ -349,7 +349,7 @@ app.post("/api/satuankerja", function (req, res) {
     { name: 'expired_date', sqltype: sql.Date, value: req.body.expired_date }
   ]
 
-  var query = "INSERT INTO SatuanKerja (id_jns_satker, id_induk_satker, nama, email, create_date, last_update, expired_date) VALUES (@id_jns_satker, @id_induk_satker, @nama, @email, @create_date, @last_update, @expired_date)";
+  var query = "INSERT INTO SatuanKerja (id_jns_satker, id_induk_satker, nama, email, create_date, last_update, expired_date) VALUES (@id_jns_satker, @id_induk_satker, @nama, @email, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, @expired_date)";
   executeQuery(res, query, param, 1);
 });
 
@@ -366,7 +366,7 @@ app.put("/api/satuankerja/:id", function (req, res) {
     { name: 'expired_date', sqltype: sql.Date, value: req.body.expired_date }
   ]
 
-  var query = "UPDATE SatuanKerja SET id_jns_satker = @id_jns_satker, id_induk_satker = @id_induk_satker, nama = @nama, email = @email, create_date = @create_date, last_update = @last_update, expired_date = @expired_date WHERE id = " + req.params.id;
+  var query = "UPDATE SatuanKerja SET id_jns_satker = @id_jns_satker, id_induk_satker = @id_induk_satker, nama = @nama, email = @email, last_update = CURRENT_TIMESTAMP, expired_date = @expired_date WHERE id = " + req.params.id;
   executeQuery(res, query, param, 1);
 });
 
@@ -401,7 +401,7 @@ app.post("/api/capaian_unit", function (req, res) {
     { name: 'capaian', sqltype: sql.Float, value: req.body.capaian }
   ]
 
-  var query = "INSERT INTO capaian_unit (id_satker, id_datadasar, waktu, capaian) VALUES (@id_satker, @id_datadasar, @waktu, @capaian)";
+  var query = "INSERT INTO capaian_unit (id_satker, id_datadasar, waktu, capaian) VALUES (@id_satker, @id_datadasar, CURRENT_TIMESTAMP, @capaian)";
   executeQuery(res, query, param, 1);
 });
 
@@ -448,12 +448,12 @@ app.post("/api/indikator_satuankerja", function (req, res) {
     { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
     { name: 'id_satker', sqltype: sql.VarChar, value: req.body.id_satker },
     { name: 'bobot', sqltype: sql.Float, value: req.body.bobot },
-    { name: 'target', sqltype: sql.Float, value: req.body.target },
+    { name: 'targett', sqltype: sql.Float, value: req.body.targett },
     { name: 'capaian', sqltype: sql.Float, value: req.body.capaian },
     { name: 'last_update', sqltype: sql.Date, value: req.body.last_update }
   ]
 
-  var query = "INSERT INTO Indikator_SatuanKerja (id_periode, id_master, id_satker, bobot, target, capaian, last_update) VALUES (@id_periode, @id_master, @id_satker, @bobot, @target, @capaian, @last_update)";
+  var query = "INSERT INTO Indikator_SatuanKerja (id_periode, id_master, id_satker, bobot, targett, capaian, last_update) VALUES (@id_periode, @id_master, @id_satker, @bobot, @targett, @capaian, CURRENT_TIMESTAMP)";
   executeQuery(res, query, param, 1);
 });
 
@@ -465,12 +465,12 @@ app.put("/api/indikator_satuankerja/:id_periode&:id_master&:id_satker", function
     { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
     { name: 'id_satker', sqltype: sql.VarChar, value: req.body.id_satker },
     { name: 'bobot', sqltype: sql.Float, value: req.body.bobot },
-    { name: 'target', sqltype: sql.Float, value: req.body.target },
+    { name: 'targett', sqltype: sql.Float, value: req.body.targett },
     { name: 'capaian', sqltype: sql.Float, value: req.body.capaian },
     { name: 'last_update', sqltype: sql.Date, value: req.body.last_update }
   ]
 
-  var query = "UPDATE Indikator_SatuanKerja SET id_periode = @id_periode, id_master = @id_master, id_satker = @id_satker, bobot = @bobot, target = @target, capaian = @capaian, last_update = @last_update WHERE id_master = " + req.params.id_master + "AND id_periode = " + req.params.id_periode + "AND id_satker = " + req.params.id_satker;
+  var query = "UPDATE Indikator_SatuanKerja SET id_periode = @id_periode, id_master = @id_master, id_satker = @id_satker, bobot = @bobot, targett = @targett, capaian = @capaian, last_update = CURRENT_TIMESTAMP WHERE id_master = " + req.params.id_master + "AND id_periode = " + req.params.id_periode + "AND id_satker = " + req.params.id_satker;
   executeQuery(res, query, param, 1);
 });
 
