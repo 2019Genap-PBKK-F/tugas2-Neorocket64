@@ -325,8 +325,8 @@ app.get("/api/satuankerja", function (req, res) {
   executeQuery(res, query, null, 0);
 });
 
-app.get("/api/satuankerjaid", function (req, res) {
-  var query = "SELECT id, nama AS name FROM SatuanKerja";
+app.get("/api/satuankerjaname", function (req, res) {
+  var query = "SELECT id_satker AS id, nama AS name FROM SatuanKerja";
   executeQuery(res, query, null, 0);
 });
 
@@ -395,7 +395,7 @@ app.get("/api/capaian_unit/:id_satker&:id_datadasar", function (req, res) {
 app.post("/api/capaian_unit", function (req, res) {
 
   var param = [
-    { name: 'id_satker', sqltype: sql.Int, value: req.body.id_satker },
+    { name: 'id_satker', sqltype: sql.VarChar, value: req.body.id_satker },
     { name: 'id_datadasar', sqltype: sql.Int, value: req.body.id_datadasar },
     { name: 'waktu', sqltype: sql.Date, value: req.body.waktu },
     { name: 'capaian', sqltype: sql.Float, value: req.body.capaian }
@@ -409,7 +409,7 @@ app.post("/api/capaian_unit", function (req, res) {
 app.put("/api/capaian_unit/:id_satker&:id_datadasar", function (req, res) {
 
   var param = [
-    { name: 'id_satker', sqltype: sql.Int, value: req.body.id_satker },
+    { name: 'id_satker', sqltype: sql.VarChar, value: req.body.id_satker },
     { name: 'id_datadasar', sqltype: sql.Int, value: req.body.id_datadasar },
     { name: 'waktu', sqltype: sql.Date, value: req.body.waktu },
     { name: 'capaian', sqltype: sql.Float, value: req.body.capaian }
