@@ -1,6 +1,5 @@
 -- pembilang------------------------
-INSERT INTO DataDasar(nama) VALUES('Pembilang');
-INSERT INTO DataDasar(nama) VALUES('Penyebut');
+INSERT INTO DataDasar(nama) VALUES('Test');
 INSERT INTO DataDasar(nama) VALUES('Jumlah prodi terakreditasi internasional');
 INSERT INTO DataDasar(nama) VALUES('-');
 INSERT INTO DataDasar(nama) VALUES('Jumlah Penelitian dengan Mitra dari PT Luar Negeri');
