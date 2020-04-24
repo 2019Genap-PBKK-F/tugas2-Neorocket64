@@ -106,6 +106,55 @@ app.delete("/api/datadasar/:id", function (req, res) {
 });
 //-----------------------------------------
 
+//Aspek
+//GET API
+app.get("/api/aspekname", function (req, res) {
+  var query = "SELECT id, nama AS name FROM Aspek";
+  executeQuery(res, query, null, 0);
+});
+
+app.get("/api/aspek", function (req, res) {
+  var query = "SELECT * FROM Aspek";
+  executeQuery(res, query, null, 0);
+});
+
+//GET API FORM ID
+app.get("/api/aspek/:id", function (req, res) {
+  var query = "SELECT * FROM Aspek WHERE id = " + req.params.id;
+  executeQuery(res, query, null, 0);
+});
+
+//POST API
+app.post("/api/aspek", function (req, res) {
+
+  var param = [
+    { name: 'aspek', sqltype: sql.VarChar, value: req.body.aspek },
+    { name: 'komponen_aspek', sqltype: sql.VarChar, value: req.body.komponen_aspek }
+  ]
+
+  var query = "INSERT INTO Aspek (aspek, komponen_aspek) VALUES (@aspek, @komponen_aspek)";
+  executeQuery(res, query, param, 1);
+});
+
+//PUT API
+app.put("/api/aspek/:id", function (req, res) {
+
+  var param = [
+    { name: 'aspek', sqltype: sql.VarChar, value: req.body.aspek },
+    { name: 'komponen_aspek', sqltype: sql.VarChar, value: req.body.komponen_aspek }
+  ]
+
+  var query = "UPDATE Aspek SET aspek = @aspek, komponen_aspek = @komponen_aspek WHERE id = " + req.params.id;
+  executeQuery(res, query, param, 1);
+});
+
+// DELETE API
+app.delete("/api/aspek/:id", function (req, res) {
+  var query = "DELETE FROM Aspek WHERE id=" + req.params.id;
+  executeQuery(res, query, null, 0);
+});
+//-----------------------------------------
+
 //Jenis Satker
 //GET API
 app.get("/api/jenissatkername", function (req, res) {
@@ -232,8 +281,9 @@ app.get("/api/masterindikator/:id", function (req, res) {
 app.post("/api/masterindikator", function (req, res) {
 
   var param = [
-    { name: 'id_penyebut', sqltype: sql.Int, value: req.body.id_penyebut},
     { name: 'id_pembilang', sqltype: sql.Int, value: req.body.id_pembilang},
+    { name: 'id_penyebut', sqltype: sql.Int, value: req.body.id_penyebut},
+    { name: 'id_aspek', sqltype: sql.Int, value: req.body.id_aspek},
     { name: 'nama', sqltype: sql.VarChar, value: req.body.nama },
     { name: 'deskripsi', sqltype: sql.VarChar, value: req.body.deskripsi },
     { name: 'default_bobot', sqltype: sql.Float, value: req.body.default_bobot },
@@ -242,7 +292,7 @@ app.post("/api/masterindikator", function (req, res) {
     { name: 'expired_date', sqltype: sql.Date, value: req.body.expired_date }
   ]
 
-  var query = "INSERT INTO MasterIndikator (id_penyebut, id_pembilang, nama, deskripsi, default_bobot, create_date, last_update, expired_date) VALUES (@id_penyebut, @id_pembilang, @nama, @deskripsi, @default_bobot, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, @expired_date)";
+  var query = "INSERT INTO MasterIndikator (id_pembilang, id_penyebut, id_aspek, nama, deskripsi, default_bobot, create_date, last_update, expired_date) VALUES (@id_pembilang, @id_penyebut, @id_aspek, @nama, @deskripsi, @default_bobot, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, @expired_date)";
   executeQuery(res, query, param, 1);
 });
 
@@ -250,8 +300,9 @@ app.post("/api/masterindikator", function (req, res) {
 app.put("/api/masterindikator/:id", function (req, res) {
 
   var param = [
-    { name: 'id_penyebut', sqltype: sql.Int, value: req.body.id_penyebut},
     { name: 'id_pembilang', sqltype: sql.Int, value: req.body.id_pembilang},
+    { name: 'id_penyebut', sqltype: sql.Int, value: req.body.id_penyebut},
+    { name: 'id_aspek', sqltype: sql.Int, value: req.body.id_aspek},
     { name: 'nama', sqltype: sql.VarChar, value: req.body.nama },
     { name: 'deskripsi', sqltype: sql.VarChar, value: req.body.deskripsi },
     { name: 'default_bobot', sqltype: sql.Float, value: req.body.default_bobot },
@@ -260,7 +311,7 @@ app.put("/api/masterindikator/:id", function (req, res) {
     { name: 'expired_date', sqltype: sql.Date, value: req.body.expired_date }
   ]
 
-  var query = "UPDATE MasterIndikator SET id_penyebut = @id_penyebut, id_pembilang = @id_pembilang, nama = @nama, deskripsi = @deskripsi, default_bobot = @default_bobot, last_update = CURRENT_TIMESTAMP, expired_date = @expired_date WHERE id = " + req.params.id;
+  var query = "UPDATE MasterIndikator SET id_penyebut = @id_penyebut, id_pembilang = @id_pembilang, id_aspek = @id_aspek, nama = @nama, deskripsi = @deskripsi, default_bobot = @default_bobot, last_update = CURRENT_TIMESTAMP, expired_date = @expired_date WHERE id = " + req.params.id;
   executeQuery(res, query, param, 1);
 });
 
