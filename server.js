@@ -109,7 +109,7 @@ app.delete("/api/datadasar/:id", function (req, res) {
 //Aspek
 //GET API
 app.get("/api/aspekname", function (req, res) {
-  var query = "SELECT id, nama AS name FROM Aspek";
+  var query = "SELECT id, komponen_aspek AS name FROM Aspek";
   executeQuery(res, query, null, 0);
 });
 
