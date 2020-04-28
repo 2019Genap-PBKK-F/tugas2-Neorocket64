@@ -32,7 +32,7 @@ CREATE TABLE JenisSatker(
 );
 
 CREATE TABLE Periode(
-	id NUMERIC(4,0) NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	id NUMERIC(4,0) NOT NULL IDENTITY(2020,1) PRIMARY KEY,
 	nama VARCHAR(50),
 	create_date DATETIME,
 	last_update DATETIME
@@ -70,10 +70,10 @@ CREATE TABLE Indikator_Periode(
 
 CREATE TABLE SatuanKerja(
 	id INT NOT NULL IDENTITY(1,1),
-	id_satker AS 'SK'+ RIGHT('00000000000000000000000000000' + CAST(ID AS VARCHAR(30)), 30) PERSISTED PRIMARY KEY,
+	id_satker UNIQUEIDENTIFIER PRIMARY KEY,
 	id_jns_satker INT,
-	id_induk_satker VARCHAR(32),
-	nama VARCHAR(50),
+	id_induk_satker UNIQUEIDENTIFIER,
+	nama VARCHAR(100),
 	email VARCHAR(50),
 	create_date DATETIME,
 	last_update DATETIME,
@@ -85,7 +85,7 @@ CREATE TABLE SatuanKerja(
 );
 
 CREATE TABLE Capaian_Unit(
-	id_satker VARCHAR(32) NOT NULL,
+	id_satker UNIQUEIDENTIFIER NOT NULL,
 	id_datadasar INT NOT NULL,
 	waktu DATETIME,
 	capaian FLOAT,
@@ -99,7 +99,7 @@ CREATE TABLE Capaian_Unit(
 CREATE TABLE Indikator_SatuanKerja(
 	id_periode NUMERIC(4,0) NOT NULL,
 	id_master INT NOT NULL,
-	id_satker VARCHAR(32) NOT NULL,
+	id_satker UNIQUEIDENTIFIER NOT NULL,
 	bobot FLOAT,
 	targett FLOAT,
 	capaian FLOAT,
@@ -112,7 +112,7 @@ CREATE TABLE Indikator_SatuanKerja(
 );
 
 CREATE TABLE Indikator_SatuanKerja_Log(
-	id_satker VARCHAR(32),
+	id_satker UNIQUEIDENTIFIER,
 	id_master INT,
 	id_periode NUMERIC(4,0),
 	capaian FLOAT,

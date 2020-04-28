@@ -392,7 +392,7 @@ app.post("/api/satuankerja", function (req, res) {
 
   var param = [
     { name: 'id_jns_satker', sqltype: sql.Int, value: req.body.id_jns_satker},
-    { name: 'id_induk_satker', sqltype: sql.VarChar, value: req.body.id_induk_satker},
+    { name: 'id_induk_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_induk_satker},
     { name: 'nama', sqltype: sql.VarChar, value: req.body.nama },
     { name: 'email', sqltype: sql.VarChar, value: req.body.email },
     { name: 'create_date', sqltype: sql.Date, value: req.body.create_date },
@@ -409,7 +409,7 @@ app.put("/api/satuankerja/:id", function (req, res) {
 
   var param = [
     { name: 'id_jns_satker', sqltype: sql.Int, value: req.body.id_jns_satker},
-    { name: 'id_induk_satker', sqltype: sql.VarChar, value: req.body.id_induk_satker},
+    { name: 'id_induk_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_induk_satker},
     { name: 'nama', sqltype: sql.VarChar, value: req.body.nama },
     { name: 'email', sqltype: sql.VarChar, value: req.body.email },
     { name: 'create_date', sqltype: sql.Date, value: req.body.create_date },
@@ -446,7 +446,7 @@ app.get("/api/capaian_unit/:id_satker&:id_datadasar", function (req, res) {
 app.post("/api/capaian_unit", function (req, res) {
 
   var param = [
-    { name: 'id_satker', sqltype: sql.VarChar, value: req.body.id_satker },
+    { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_satker },
     { name: 'id_datadasar', sqltype: sql.Int, value: req.body.id_datadasar },
     { name: 'waktu', sqltype: sql.Date, value: req.body.waktu },
     { name: 'capaian', sqltype: sql.Float, value: req.body.capaian }
@@ -460,7 +460,7 @@ app.post("/api/capaian_unit", function (req, res) {
 app.put("/api/capaian_unit/:id_satker&:id_datadasar", function (req, res) {
 
   var param = [
-    { name: 'id_satker', sqltype: sql.VarChar, value: req.body.id_satker },
+    { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_satker },
     { name: 'id_datadasar', sqltype: sql.Int, value: req.body.id_datadasar },
     { name: 'waktu', sqltype: sql.Date, value: req.body.waktu },
     { name: 'capaian', sqltype: sql.Float, value: req.body.capaian }
@@ -497,7 +497,7 @@ app.post("/api/indikator_satuankerja", function (req, res) {
   var param = [
     { name: 'id_periode', sqltype: sql.Numeric, value: req.body.id_periode },
     { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
-    { name: 'id_satker', sqltype: sql.VarChar, value: req.body.id_satker },
+    { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_satker },
     { name: 'bobot', sqltype: sql.Float, value: req.body.bobot },
     { name: 'targett', sqltype: sql.Float, value: req.body.targett },
     { name: 'capaian', sqltype: sql.Float, value: req.body.capaian },
@@ -514,7 +514,7 @@ app.put("/api/indikator_satuankerja/:id_periode&:id_master&:id_satker", function
   var param = [
     { name: 'id_periode', sqltype: sql.Numeric, value: req.body.id_periode },
     { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
-    { name: 'id_satker', sqltype: sql.VarChar, value: req.body.id_satker },
+    { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_satker },
     { name: 'bobot', sqltype: sql.Float, value: req.body.bobot },
     { name: 'targett', sqltype: sql.Float, value: req.body.targett },
     { name: 'capaian', sqltype: sql.Float, value: req.body.capaian },
