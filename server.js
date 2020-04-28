@@ -372,7 +372,7 @@ app.delete("/api/indikator_periode/:id_master&:id_periode", function (req, res) 
 //Satuan Kerja
 //GET API
 app.get("/api/satuankerja", function (req, res) {
-  var query = "SELECT * FROM SatuanKerja";
+  var query = "SELECT * FROM SatuanKerja ORDER BY id ASC";
   executeQuery(res, query, null, 0);
 });
 
