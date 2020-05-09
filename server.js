@@ -538,6 +538,31 @@ app.get("/api/indikator_satuankerja_log", function (req, res) {
   var query = "SELECT * FROM Indikator_SatuanKerja_Log";
   executeQuery(res, query, null, 0);
 });
+//-----------------------------------------
+
+//GET API FORM ID
+app.get("/api/dosen", function (req, res) {
+  var query = "SELECT * FROM dosen";
+  executeQuery(res, query, null, 0);
+});
+
+//GET API FORM ID
+app.get("/api/abmas", function (req, res) {
+  var query = "SELECT * FROM abmas";
+  executeQuery(res, query, null, 0);
+});
+
+//GET API FORM ID
+app.get("/api/penelitian", function (req, res) {
+  var query = "SELECT * FROM penelitian";
+  executeQuery(res, query, null, 0);
+});
+
+//GET API FORM ID
+app.get("/api/publikasi", function (req, res) {
+  var query = "SELECT * FROM publikasi";
+  executeQuery(res, query, null, 0);
+});
 
 app.listen(port, hostname, () => {
   console.log('Server running at http://' + hostname + ':' + port + '/');
