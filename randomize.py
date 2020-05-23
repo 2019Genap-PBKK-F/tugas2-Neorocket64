@@ -26,6 +26,6 @@ query = """
 #     values = ()
 #     cursor.execute(query, values)
 for r in range(1, 77):
-    cursor.execute("UPDATE Indikator_SatuanKerja SET capaian = ? WHERE id_master = ?", round(random.random(), 4), r)
+    cursor.execute("UPDATE Indikator_SatuanKerja SET capaian = ? WHERE id_master = ?", round(random.uniform(0.00001, 0.01), 4), r)
 conn.commit()
 conn.close()
