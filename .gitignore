@@ -9,3 +9,6 @@ selenium-debug.log
 .*.dockerfile
 .vs
 .xlsx
+.py
+.csv
+.sql
