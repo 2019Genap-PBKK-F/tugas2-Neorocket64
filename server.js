@@ -1,4 +1,5 @@
 /*server.js*/
+// 10.199.14.46
 const hostname = 'localhost';
 const port = 8024;
 
@@ -381,6 +382,27 @@ app.get("/api/satuankerjaname", function (req, res) {
   executeQuery(res, query, null, 0);
 });
 
+app.get("/api/satuankerjadrop", function (req, res) {
+  var query = "SELECT id, nama FROM SatuanKerja WHERE nama LIKE 'Departemen%' OR nama LIKE 'Fakultas%' ORDER BY nama";
+  executeQuery(res, query, null, 0);
+});
+
+app.post("/api/satuankerjadrop", function (req, res) {
+
+  var param = [
+    { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.body.username }
+  ]
+
+  var query = "SELECT id, nama FROM SatuanKerja WHERE (id_satker = @id_satker OR id_induk_satker = @id_satker) AND (nama LIKE 'Departemen%' OR nama LIKE 'Fakultas%') ORDER BY nama";
+  executeQuery(res, query, param, 1);
+});
+
+//GET API AS ID
+app.get("/api/satuankerja/hasil/:id", function (req, res) {
+  var query = "SELECT id_satker FROM SatuanKerja WHERE id = " + req.params.id;
+  executeQuery(res, query, null, 0);
+});
+
 //GET API FORM ID
 app.get("/api/satuankerja/:id", function (req, res) {
   var query = "SELECT * FROM SatuanKerja WHERE id = " + req.params.id;
@@ -490,6 +512,11 @@ app.get("/api/indikator_satuankerja/:id_periode&:id_master&:id_satker", function
   executeQuery(res, query, null, 0);
 });
 
+//GET API FROM satker
+app.get("/api/indikator_satuankerja/satker/:id_satker", function (req, res) {
+  var query = "SELECT * FROM Indikator_SatuanKerja WHERE id_satker = " + req.params.id_satker;
+  executeQuery(res, query, null, 0);
+});
 
 //POST API
 app.post("/api/indikator_satuankerja", function (req, res) {
@@ -566,4 +593,29 @@ app.get("/api/publikasi", function (req, res) {
 
 app.listen(port, hostname, () => {
   console.log('Server running at http://' + hostname + ':' + port + '/');
+});
+//-----------------------------------------not this again ;_;
+
+//GET API FROM satker
+app.get("/api/indikator_satuankerja/satker/:id_satker", function (req, res) {
+  var query = "SELECT * FROM Indikator_SatuanKerja WHERE id_satker = " + req.params.id_satker;
+  executeQuery(res, query, null, 0);
+});
+
+//GET API
+app.get("/api/konkin/:id_satker", function (req, res) {
+  var query = "SELECT asp.aspek, asp.komponen_aspek, mi.nama, isk.bobot, isk.targett, isk.capaian FROM Indikator_SatuanKerja AS isk JOIN MasterIndikator AS mi ON (isk.id_master = mi.id) JOIN Aspek AS asp ON (mi.id_aspek = asp.id) WHERE isk.id_satker = CAST ('" + req.params.id_satker + "' AS UNIQUEIDENTIFIER)";
+  executeQuery(res, query, null, 0);
+});
+
+//LOGIN
+app.post("/api/login", function (req, res) {
+
+  var param = [
+    { name: 'email', sqltype: sql.VarChar, value: req.body.username },
+    { name: 'password', sqltype: sql.VarChar, value: req.body.password },
+  ]
+
+  var query = "SELECT email, id_satker, nama FROM SatuanKerja WHERE email = @email AND @email = @password";
+  executeQuery(res, query, param, 1);
 });

@@ -8,3 +8,4 @@ selenium-debug.log
 .netlify
 .*.dockerfile
 .vs
+.xlsx
