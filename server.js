@@ -1,6 +1,6 @@
 /*server.js*/
 // 10.199.14.46
-const hostname = 'localhost';
+const hostname = '10.199.14.46';
 const port = 8024;
 
 const express = require('express');
