@@ -8,7 +8,7 @@ selenium-debug.log
 .netlify
 .*.dockerfile
 .vs
-.xlsx
-.py
-.csv
-.sql
+*.xlsx
+*.py
+*.csv
+*.sql
