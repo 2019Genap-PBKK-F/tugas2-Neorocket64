@@ -591,9 +591,6 @@ app.get("/api/publikasi", function (req, res) {
   executeQuery(res, query, null, 0);
 });
 
-app.listen(port, hostname, () => {
-  console.log('Server running at http://' + hostname + ':' + port + '/');
-});
 //-----------------------------------------not this again ;_;
 
 //GET API FROM satker
@@ -618,4 +615,8 @@ app.post("/api/login", function (req, res) {
 
   var query = "SELECT email, id_satker, nama FROM SatuanKerja WHERE email = @email AND @email = @password";
   executeQuery(res, query, param, 1);
+});
+
+app.listen(port, () => {
+  console.log('Server running at http://' + hostname + ':' + port + '/');
 });
