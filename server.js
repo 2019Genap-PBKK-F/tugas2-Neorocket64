@@ -604,7 +604,7 @@ app.get("/api/indikator_satuankerja/satker/:id_satker", function (req, res) {
 
 //GET API
 app.get("/api/konkin/:id_satker", function (req, res) {
-  var query = "SELECT asp.aspek, asp.komponen_aspek, mi.nama, isk.bobot, isk.targett, isk.capaian FROM Indikator_SatuanKerja AS isk JOIN MasterIndikator AS mi ON (isk.id_master = mi.id) JOIN Aspek AS asp ON (mi.id_aspek = asp.id) WHERE isk.id_satker = CAST ('" + req.params.id_satker + "' AS UNIQUEIDENTIFIER)";
+  var query = "SELECT asp.aspek, asp.komponen_aspek, mi.nama, isk.bobot, isk.targett, CONCAT(isk.capaian, '(', ROUND(COALESCE(capaian/NULLIF(isk.targett,0), 0)*100, 2), '%)') AS 'capaian'  FROM Indikator_SatuanKerja AS isk JOIN MasterIndikator AS mi ON (isk.id_master = mi.id) JOIN Aspek AS asp ON (mi.id_aspek = asp.id) WHERE isk.id_satker = CAST ('" + req.params.id_satker + "' AS UNIQUEIDENTIFIER)";
   executeQuery(res, query, null, 0);
 });
 

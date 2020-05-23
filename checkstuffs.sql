@@ -35,8 +35,9 @@
 
 -- DBCC CHECKIDENT ('dbo.SatuanKerja', RESEED, 0)  
 
-SELECT * FROM dbo.SatuanKerja
+-- SELECT * FROM dbo.SatuanKerja
 
-DBCC CHECKIDENT ('dbo.SatuanKerja')
+-- DBCC CHECKIDENT ('dbo.SatuanKerja')
 
-
+-- SELECT asp.aspek, asp.komponen_aspek, mi.nama, isk.bobot, isk.targett, isk.capaian, CAST(isk.capaian + '(' + isk.capaian/isk.targett + ')' AS VARCHAR) AS 'capaian'  FROM Indikator_SatuanKerja AS isk JOIN MasterIndikator AS mi ON (isk.id_master = mi.id) JOIN Aspek AS asp ON (mi.id_aspek = asp.id)
+SELECT asp.aspek, asp.komponen_aspek, mi.nama, isk.bobot, isk.targett, CONCAT(isk.capaian, '(', COALESCE(capaian/NULLIF(isk.targett,0), 0)*100, '%)') AS 'capaian'  FROM Indikator_SatuanKerja AS isk JOIN MasterIndikator AS mi ON (isk.id_master = mi.id) JOIN Aspek AS asp ON (mi.id_aspek = asp.id)
