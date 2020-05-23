@@ -1,6 +1,6 @@
 /*server.js*/
 // 10.199.14.46
-const hostname = '10.199.14.46';
+const hostname = 'localhost';
 const port = 8024;
 
 const express = require('express');
@@ -620,3 +620,7 @@ app.post("/api/login", function (req, res) {
 app.listen(port, () => {
   console.log('Server running at http://' + hostname + ':' + port + '/');
 });
+
+// app.listen(port, hostname, () => {
+//   console.log('Server running at http://' + hostname + ':' + port + '/');
+// });
