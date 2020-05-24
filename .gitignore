@@ -1,12 +1,9 @@
-.DS_Store
 dist/
 npm-debug.log
 yarn-error.log
 test/unit/coverage
 test/e2e/reports
 selenium-debug.log
-.netlify
-.*.dockerfile
 .vs
 *.xlsx
 *.py
