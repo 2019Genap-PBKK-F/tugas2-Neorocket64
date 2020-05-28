@@ -11,8 +11,8 @@ const https = require('https');
 const fs = require('fs');
 
 const options = {
-  key: fs.readFileSync('./key.pem'),
-  cert: fs.readFileSync('./cert.pem')
+  key: fs.readFileSync(__dirname + '/key.pem'),
+  cert: fs.readFileSync(__dirname + '/cert.pem')
 };
 
 var config = {
@@ -625,7 +625,7 @@ app.post("/api/login", function (req, res) {
 });
 
 https.createServer(options, app).listen(port, () => {
-  console.log('Listening...')
+  console.log('Listening...');
 });
 
 // app.listen(port, () => {
