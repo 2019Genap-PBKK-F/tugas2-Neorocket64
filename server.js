@@ -624,7 +624,7 @@ app.post("/api/login", function (req, res) {
   executeQuery(res, query, param, 1);
 });
 
-https.createServer({}, app).listen(port, () => {
+https.createServer(options, app).listen(port, () => {
   console.log('Listening...')
 })
 
