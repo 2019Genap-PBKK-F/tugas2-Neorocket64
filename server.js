@@ -11,8 +11,8 @@ const https = require('https');
 const fs = require('fs');
 
 const options = {
-  key: fs.readFileSync(__dirname + '/awikwok.com.key', 'utf8'),
-  cert: fs.readFileSync(__dirname + '/awikwok.com.cert', 'utf8')
+  key: fs.readFileSync(__dirname + '/neorocket64.github.io.key', 'utf8'),
+  cert: fs.readFileSync(__dirname + '/neorocket64.github.io.cert', 'utf8')
   // key: fs.readFileSync(__dirname + '/key.pem', 'utf8'),
   // cert: fs.readFileSync(__dirname + '/cert.pem', 'utf8')
 };
