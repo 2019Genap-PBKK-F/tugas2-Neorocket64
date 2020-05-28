@@ -626,7 +626,7 @@ app.post("/api/login", function (req, res) {
 
 https.createServer(options, app).listen(port, () => {
   console.log('Listening...')
-})
+});
 
 // app.listen(port, () => {
 //   console.log('Server running at http://' + hostname + ':' + port + '/');
