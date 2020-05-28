@@ -1,6 +1,6 @@
 /*server.js*/
 // 10.199.14.46
-const hostname = 'localhost';
+const hostname = '10.199.14.46';
 const port = 8024;
 
 const express = require('express');
@@ -11,8 +11,8 @@ const https = require('https');
 const fs = require('fs');
 
 const options = {
-  key: fs.readFileSync(__dirname + '/key.pem'),
-  cert: fs.readFileSync(__dirname + '/cert.pem')
+  key: fs.readFileSync(__dirname + '/key.pem', 'utf8'),
+  cert: fs.readFileSync(__dirname + '/cert.pem', 'utf8')
 };
 
 var config = {
@@ -624,8 +624,8 @@ app.post("/api/login", function (req, res) {
   executeQuery(res, query, param, 1);
 });
 
-https.createServer(options, app).listen(port, () => {
-  console.log('Listening...');
+https.createServer(options, app).listen(port, function () {
+  console.log('Check out https://' + hostname + ':' + port + '/')
 });
 
 // app.listen(port, () => {
