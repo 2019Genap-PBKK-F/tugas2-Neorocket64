@@ -7,6 +7,13 @@ const express = require('express');
 var sql = require('mssql');
 const bodyParser = require('body-parser');
 const app = express();
+const https = require('https');
+const fs = require('fs');
+
+const options = {
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem')
+};
 
 var config = {
   user: 'sa',
@@ -617,9 +624,13 @@ app.post("/api/login", function (req, res) {
   executeQuery(res, query, param, 1);
 });
 
-app.listen(port, () => {
-  console.log('Server running at http://' + hostname + ':' + port + '/');
-});
+https.createServer({}, app).listen(port, () => {
+  console.log('Listening...')
+})
+
+// app.listen(port, () => {
+//   console.log('Server running at http://' + hostname + ':' + port + '/');
+// });
 
 // app.listen(port, hostname, () => {
 //   console.log('Server running at http://' + hostname + ':' + port + '/');
